@@ -1,6 +1,7 @@
 #setup
 dist
 .idea
+LICENSE.txt
 
 # Logs
 logs
