@@ -1,7 +1,7 @@
 {
   "name": "anical",
   "productName": "AniCal",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "description": "Generate ",
   "main": "src/index.js",
   "scripts": {
