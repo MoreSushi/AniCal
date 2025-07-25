@@ -24,7 +24,7 @@
       "installerIcon": "src/images/icons/icon.ico",
       "uninstallerIcon": "src/images/icons/icon.ico",
       "uninstallDisplayName": "AniCal",
-      "license": "LICENSE.txt",
+      "license": "LICENSE",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
     }
