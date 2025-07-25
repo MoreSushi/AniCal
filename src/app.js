@@ -34,6 +34,7 @@ query ($username: String) {
                     id
                     siteUrl
                     description
+                    format
                     title {
                         romaji
                         native
@@ -72,15 +73,19 @@ async function export_cal() {
         }
     }
 
-    function new_event(name, timestamp, episode_number, anime_description) {
-
+    function new_event(name, timestamp, episode_number, anime_description, format) {
+        let event_name;
         let start = new Date(timestamp * 1000)
         let end = new Date((timestamp + 24 * 60) * 1000)
-
+        if (format === "MOVIE") {
+            event_name = name;
+        } else {
+            event_name = name + " | episode " + episode_number;
+        }
         calendar.createEvent({
             start: start,
             end: end,
-            summary: name + " | episode " + episode_number,
+            summary: event_name,
             description: anime_description,
         });
     }
@@ -120,6 +125,7 @@ async function export_cal() {
                     "schedule": scheduling(anime["airingSchedule"]["nodes"]),
                     "description": anime["description"],
                     "url": anime["siteUrl"],
+                    "format": anime["format"],
                 };
             }
         }
@@ -137,13 +143,13 @@ async function export_cal() {
         )
         for (let episodes in anime_schedule[key]["episodes"]) {
             new_event(
-                title, anime_schedule[key]["schedule"][episodes], episodes, description
+                title, anime_schedule[key]["schedule"][episodes], anime_schedule[key]["episodes"][episodes], description, anime_schedule[key]["format"]
             )
         }
     }
 
-    console.log(user, season, year, language)
-    console.log(typeof user, typeof season, typeof year, typeof language)
+    //console.log(user, season, year, language)
+    //console.log(typeof user, typeof season, typeof year, typeof language)
     console.log("Calendar for " + user + " has been generated")
 
     //console.log(calendar.toString());
@@ -151,7 +157,7 @@ async function export_cal() {
     const element = document.createElement("a");
     const file = new Blob([content], {type: "text/plain"});
     element.href = URL.createObjectURL(file);
-    element.download = "aniCal.ics";
+    element.download = user + " aniCal " + season + " " + year + ".ics";
     element.click();
 }
 
